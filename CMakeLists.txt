@@ -57,7 +57,7 @@ if (TARGET tinyusb_device)
     # creadd_executableate map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(hello_adc)
 
-    add_executable(hardware_test hardware_test.c sht31.c adxl345.c)
+    add_executable(hardware_test hardware_test.c sht31.c adxl345.c pac193x.c)
     # Pull in our pico_stdlib which aggregates commonly used features
     target_link_libraries(hardware_test hardware_adc hardware_dma pico_stdlib hardware_i2c)
 
