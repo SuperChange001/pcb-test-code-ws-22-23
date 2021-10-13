@@ -49,11 +49,11 @@ int sht31_readTempHum(float *temp, float *humidity) {
     uint8_t cmdbuffer[2]={0x2C, 0x06};
 
 
-    i2c_write_blocking(i2c1, 0x44, cmdbuffer, 2, false);
+    i2c_write_blocking(i2c0, 0x44, cmdbuffer, 2, false);
 
     sleep_ms(500);
 
-    ret = i2c_read_blocking(i2c1, 0x44, readbuffer, sizeof(readbuffer), false);
+    ret = i2c_read_blocking(i2c0, 0x44, readbuffer, sizeof(readbuffer), false);
 
     if (readbuffer[2] != crc8(readbuffer, 2) ||
         readbuffer[5] != crc8(readbuffer + 3, 2)){

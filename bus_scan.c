@@ -50,13 +50,13 @@ int main() {
 //    puts("Default I2C pins were not defined");
 //#else
     // This example will use I2C0 on the default SDA and SCL pins (4, 5 on a Pico)
-    i2c_init(i2c1, 10 * 1000);
-    gpio_set_function(6, GPIO_FUNC_I2C);
-    gpio_set_function(7, GPIO_FUNC_I2C);
-    gpio_pull_up(6);
-    gpio_pull_up(7);
+    i2c_init(i2c0, 10 * 1000);
+    gpio_set_function(0, GPIO_FUNC_I2C);
+    gpio_set_function(1, GPIO_FUNC_I2C);
+    gpio_pull_up(0);
+    gpio_pull_up(1);
     // Make the I2C pins available to picotool
-    bi_decl(bi_2pins_with_func(6, 7, GPIO_FUNC_I2C));
+    bi_decl(bi_2pins_with_func(0, 1, GPIO_FUNC_I2C));
 
     printf("\nI2C Bus Scan\n");
     printf("   0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F\n");
@@ -78,7 +78,7 @@ int main() {
 //        if (reserved_addr(addr))
 //            ret = PICO_ERROR_GENERIC;
 //        else
-            ret = i2c_read_blocking(i2c1, addr, &rxdata, 1, false);
+            ret = i2c_read_blocking(i2c0, addr, &rxdata, 1, false);
 //        printf(ret < 0 ? "." : "@");
 //        printf(addr % 16 == 15 ? "\n" : "  ");
         if(ret>0){

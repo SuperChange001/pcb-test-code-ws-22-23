@@ -61,4 +61,6 @@ void pac193x_printInfo(void);
 void pac193x_getInfo(uint8_t *product_id, uint8_t *manufacturer_id, uint8_t *revision_id);
 int pac193x_init(void);
 
+
+
 #endif //TESTSENSORBOARD_PAC193X_H

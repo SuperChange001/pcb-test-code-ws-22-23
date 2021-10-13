@@ -6,7 +6,7 @@
 #define MY_PROJECT_ADXL345_H
 #include "pico/stdlib.h"
 
-#define I2C_CH i2c1
+#define I2C_CH i2c0
 #define ADXL345_SLAVE_ADDR 0x53 // when ALT is connected to GND
 
 /*! \brief  Check if the ADXL345 is on the I2C Bus

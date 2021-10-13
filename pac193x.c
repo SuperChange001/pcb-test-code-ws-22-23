@@ -88,18 +88,28 @@ void pac193x_getInfo(uint8_t *product_id, uint8_t *manufacturer_id, uint8_t *rev
 {
     uint8_t cmdbuffer[2];
 
+    //0x58 for PAC1931
+    //0x59 for PAC1932
+    //0x5a for PAC1933
+    //0x5b for PAC1934
     cmdbuffer[0] = PAC1934_PRODUCT_ID_ADDR;
     i2c_write_blocking(I2C_CH, PAC193X_SLAVE_ADDR, cmdbuffer, 1, false);
     i2c_read_blocking(I2C_CH, PAC193X_SLAVE_ADDR, product_id, 1, false);
 
+    // should be always 0x5d
     cmdbuffer[0] = PAC1934_MANUFACTURER_ID_ADDR;
     i2c_write_blocking(I2C_CH, PAC193X_SLAVE_ADDR, cmdbuffer, 1, false);
     i2c_read_blocking(I2C_CH, PAC193X_SLAVE_ADDR, manufacturer_id, 1, false);
 
+    // reversion id
     cmdbuffer[0] = PAC1934_REVISION_ID_ADDR;
     i2c_write_blocking(I2C_CH, PAC193X_SLAVE_ADDR, cmdbuffer, 1, false);
     i2c_read_blocking(I2C_CH, PAC193X_SLAVE_ADDR, revision_id, 1, false);
 }
+
+
+
+
 
 /*! \brief Print the device information
  *
