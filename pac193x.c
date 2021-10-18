@@ -5,6 +5,76 @@
 #include "pac193x.h"
 #include "hardware/i2c.h"
 #include <stdio.h>
+#include "pico/stdlib.h"
+
+// ToDo: Lukas to check why the first one doesn't work
+//i2c_inst_t *I2C_CH = i2c1;
+#define I2C_CH i2c1
+
+// PAC193x register addresses
+#define PAC1934_REFRESH_CMD_ADDR            0x00
+#define PAC1934_CTRL_ADDR                   0x01
+#define PAC1934_ACC_COUNT_ADDR              0x02
+#define PAC1934_VPOWER1_ACC_ADDR            0x03
+#define PAC1934_VPOWER2_ACC_ADDR            0x04
+#define PAC1934_VPOWER3_ACC_ADDR            0x05
+#define PAC1934_VPOWER4_ACC_ADDR            0x06
+#define PAC1934_VBUS1_ADDR                  0x07
+#define PAC1934_VBUS2_ADDR                  0x08
+#define PAC1934_VBUS3_ADDR                  0x09
+#define PAC1934_VBUS4_ADDR                  0x0A
+#define PAC1934_VSENSE1_ADDR                0x0B
+#define PAC1934_VSENSE2_ADDR                0x0C
+#define PAC1934_VSENSE3_ADDR                0x0D
+#define PAC1934_VSENSE4_ADDR                0x0E
+#define PAC1934_VBUS1_AVG_ADDR              0x0F
+#define PAC1934_VBUS2_AVG_ADDR              0x10
+#define PAC1934_VBUS3_AVG_ADDR              0X11
+#define PAC1934_VBUS4_AVG_ADDR              0X12
+#define PAC1934_VSENSE1_AVG_ADDR            0X13
+#define PAC1934_VSENSE2_AVG_ADDR            0X14
+#define PAC1934_VSENSE3_AVG_ADDR            0X15
+#define PAC1934_VSENSE4_AVG_ADDR            0X16
+#define PAC1934_VPOWER1_ADDR                0X17
+#define PAC1934_VPOWER2_ADDR                0X18
+#define PAC1934_VPOWER3_ADDR                0X19
+#define PAC1934_VPOWER4_ADDR                0X1A
+#define PAC1934_CHANNEL_DIS_ADDR            0X1C
+#define PAC1934_NEG_PWR_ADDR                0X1D
+#define PAC1934_REFRESH_G_CMD_ADDR          0x1E
+#define PAC1934_REFRESH_V_CMD_ADDR          0x1F
+#define PAC1934_SLOW_ADDR                   0X20
+#define PAC1934_CTRL_ACT_ADDR               0X21
+#define PAC1934_CHANNEL_DIS_ACT_ADDR        0X22
+#define PAC1934_NEG_PWR_ACT_ADDR            0X23
+#define PAC1934_CTRL_LAT_ADDR               0X24
+#define PAC1934_CHANNEL_DIS_LAT_ADDR        0X25
+#define PAC1934_NEG_PWR_LAT_ADDR            0x26
+
+#define PAC1934_PRODUCT_ID_ADDR             0xFD
+#define PAC1934_MANUFACTURER_ID_ADDR        0xFE
+#define PAC1934_REVISION_ID_ADDR            0xFF
+
+
+
+/*! \brief  Power off the sensor if it is necessary
+ *
+ * \param none
+ *
+ * \returns 1: power off the sensor
+ *          0: sensor on the sensor
+ */
+int pac193x_PowerDown(uint8_t power_off)
+{
+    gpio_init(29);
+    gpio_set_dir(29, GPIO_OUT);
+    if(power_off==1){
+        gpio_put(29, 0);
+    }else if(power_off==0){
+        gpio_put(29, 1);
+    }
+}
+
 
 /*! \brief  Check if the PAC193x is on the I2C Bus
  *
@@ -48,6 +118,7 @@ int pac193x_init(void)
 {
 
     uint8_t cmdbuffer[2];
+    pac193x_PowerDown(0);
 
     if(pac193x_onBus(PAC193X_SLAVE_ADDR)<0)
         return -1;
@@ -84,9 +155,10 @@ int pac193x_init(void)
  *
  * \returns none
  */
-void pac193x_getInfo(uint8_t *product_id, uint8_t *manufacturer_id, uint8_t *revision_id)
+PAC193X_Info pac193x_getInfo(void)
 {
     uint8_t cmdbuffer[2];
+    PAC193X_Info info;
 
     //0x58 for PAC1931
     //0x59 for PAC1932
@@ -94,17 +166,18 @@ void pac193x_getInfo(uint8_t *product_id, uint8_t *manufacturer_id, uint8_t *rev
     //0x5b for PAC1934
     cmdbuffer[0] = PAC1934_PRODUCT_ID_ADDR;
     i2c_write_blocking(I2C_CH, PAC193X_SLAVE_ADDR, cmdbuffer, 1, false);
-    i2c_read_blocking(I2C_CH, PAC193X_SLAVE_ADDR, product_id, 1, false);
+    i2c_read_blocking(I2C_CH, PAC193X_SLAVE_ADDR, &info.product_id, 1, false);
 
     // should be always 0x5d
     cmdbuffer[0] = PAC1934_MANUFACTURER_ID_ADDR;
     i2c_write_blocking(I2C_CH, PAC193X_SLAVE_ADDR, cmdbuffer, 1, false);
-    i2c_read_blocking(I2C_CH, PAC193X_SLAVE_ADDR, manufacturer_id, 1, false);
+    i2c_read_blocking(I2C_CH, PAC193X_SLAVE_ADDR, &info.manufacturer_id, 1, false);
 
     // reversion id
     cmdbuffer[0] = PAC1934_REVISION_ID_ADDR;
     i2c_write_blocking(I2C_CH, PAC193X_SLAVE_ADDR, cmdbuffer, 1, false);
-    i2c_read_blocking(I2C_CH, PAC193X_SLAVE_ADDR, revision_id, 1, false);
+    i2c_read_blocking(I2C_CH, PAC193X_SLAVE_ADDR, &info.revision_id, 1, false);
+    return info;
 }
 
 
@@ -121,7 +194,9 @@ void pac193x_getInfo(uint8_t *product_id, uint8_t *manufacturer_id, uint8_t *rev
  */
 void pac193x_printInfo(void)
 {
-    uint8_t product_id, manufacture_id, reversion_id;
-    pac193x_getInfo(&product_id, &manufacture_id, &reversion_id);
-    printf("Product id: %2x\r\nManufacture id: %2x\r\nReversion id: %2x\r\n", product_id, manufacture_id, reversion_id);
+    PAC193X_Info info;
+
+    info = pac193x_getInfo();
+
+    printf("Product id: %2x\r\nManufacture id: %2x\r\nReversion id: %2x\r\n", info.product_id, info.manufacturer_id, info.revision_id);
 }
