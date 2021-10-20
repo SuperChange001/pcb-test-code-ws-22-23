@@ -18,14 +18,12 @@ if (TARGET tinyusb_device)
     # adds sensor lib dependency as Interface
     add_subdirectory(sensor_lib)
 
-    # creates hardware_setup library
-    add_library(hardware_setup Src/hardware_setup.c)
-    target_include_directories(hardware_setup PUBLIC Inc .)
-    target_link_libraries(hardware_setup hardware_adc hardware_dma pico_stdlib hardware_i2c sensor_lib)
+    # adds hardware_setup dependency
+    add_subdirectory(setup)
    
     # creates hardware_test executable
-    add_executable(hardware_test Src/hardware_test.c)
-
+    add_executable(hardware_test app/hardware_test.c)
+    target_include_directories(hardware_test PUBLIC .)
     # Pull in our pico_stdlib which aggregates commonly used features
     target_link_libraries(hardware_test pico_stdlib hardware_setup)
 
