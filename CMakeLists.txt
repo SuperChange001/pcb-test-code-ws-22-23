@@ -13,20 +13,21 @@ project(my_project)
 # initialize the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-
-
-
-# rest of your project
-#add_library(sensor_lib)
-
 if (TARGET tinyusb_device)
 
-    add_executable(hardware_test hardware_test.c)
+    # adds sensor lib dependency as Interface
     add_subdirectory(sensor_lib)
 
-    # Pull in our pico_stdlib which aggregates commonly used features
-    target_link_libraries(hardware_test hardware_adc hardware_dma pico_stdlib hardware_i2c sensor_lib)
+    # creates hardware_setup library
+    add_library(hardware_setup Src/hardware_setup.c)
+    target_include_directories(hardware_setup PUBLIC Inc .)
+    target_link_libraries(hardware_setup hardware_adc hardware_dma pico_stdlib hardware_i2c sensor_lib)
+   
+    # creates hardware_test executable
+    add_executable(hardware_test Src/hardware_test.c)
 
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(hardware_test pico_stdlib hardware_setup)
 
     # enable usb output, disable uart output
     pico_enable_stdio_usb(hardware_test 1)
