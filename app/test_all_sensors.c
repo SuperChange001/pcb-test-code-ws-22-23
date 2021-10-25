@@ -16,10 +16,11 @@ int main(void)
         char c = getchar_timeout_us(10000);
         if (c == 't')
         {
-            printf("hello\r\n");
+            printf("Will test all sensors now:\r\n");
             setup_pac193x();
             sleep_ms(10);
             pac193x_print_info();
+
             setup_sht31();
             sht31_read_temp_hum(&temp, &humidity);
             printf("temp: %f, humidity: %f\r\n", temp, humidity);
@@ -29,6 +30,7 @@ int main(void)
             printf("acc_x: %d, acc_y:%d, acc_z:%d\r\n", xAccl, yAccl, zAccl);
 
             setup_adc();
+
             float res_voltage = adc_measure_voltage();
             printf("Voltage: %f V\n", res_voltage);
 

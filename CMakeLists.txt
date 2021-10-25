@@ -48,6 +48,19 @@ if (TARGET tinyusb_device)
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(test_pac193x)
     ################################################################################
+    # creates test_pac193x executable
+    add_executable(test_sht31 app/test_sht31.c)
+    target_include_directories(test_sht31 PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_sht31 pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_sht31 1)
+    pico_enable_stdio_uart(test_sht31 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_sht31)
+    ################################################################################
     # creates test_all_sensor executable
     add_executable(test_all_sensors app/test_all_sensors.c)
     target_include_directories(test_all_sensors PUBLIC .)

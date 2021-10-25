@@ -1,6 +1,9 @@
 //
 // Created by chao on 25/10/2021.
 //
+//
+// Created by chao on 25/10/2021.
+//
 #include <stdio.h>
 #include "hardware_setup.h"
 #include "sensor_lib/adxl345.h"
@@ -9,6 +12,7 @@
 
 int main(void)
 {
+    float temp, humidity;
 
     initializePeripherals();
 
@@ -17,17 +21,15 @@ int main(void)
         char c = getchar_timeout_us(10000);
         if (c == 't')
         {
-            printf("Testing the PAC193x now\r\n");
+            printf("Testing the SHT31 now\r\n");
             printf("=====================================================\r\n");
-            printf("Product ID can be: 0x58, or 0x59, or 0x5a, or 0x5b\r\n");
-            printf("Manufacture ID should be: 0x5d\r\n");
-            printf("Revision ID might be: 0x03\r\n");
+            printf("It first checks if SHT31 is available.\r\n");
+            printf("Tt tries to read the room temperature and humidity.\r\n");
             printf("=====================================================\r\n");
 
-            setup_pac193x();
-            sleep_ms(10);
-            pac193x_print_info();
-
+            setup_sht31();
+            sht31_read_temp_hum(&temp, &humidity);
+            printf("temp: %f, humidity: %f\r\n", temp, humidity);
         }
     }
 }
