@@ -1,9 +1,8 @@
 # How to setup the environment?
-1. in the `CMakeLists.txt` you should change the `PICO_SDK_PATH` to the directory on your PC.
-2. To get the Pico SDK
-```
-https://github.com/raspberrypi/pico-sdk
-```
+1. Windows User: [How to Set Up Raspberry Pi Pico C/C++ Toolchain on Windows with VS Code](https://shawnhymel.com/2096/how-to-set-up-raspberry-pi-pico-c-c-toolchain-on-windows-with-vs-code/)
+2. Linux User: [Quick-start your own project](https://github.com/raspberrypi/pico-sdk)
+3. OSX User: [Getting started with Pi Pico(Chapter 9.1)](https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf)
+
 
 # How to build all the test program
 1. Create a new folder named with build, and change directory to build folder. e.g,
