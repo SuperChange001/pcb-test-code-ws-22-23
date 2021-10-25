@@ -74,6 +74,32 @@ if (TARGET tinyusb_device)
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(test_sht31)
     ################################################################################
+    # creates test_adc_vol executable
+    add_executable(test_adc_vol app/test_adc_voltage_measure.c)
+    target_include_directories(test_adc_vol PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_adc_vol pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_adc_vol 1)
+    pico_enable_stdio_uart(test_adc_vol 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_adc_vol)
+    ################################################################################
+    # creates test_adc_vol executable
+    add_executable(test_adc_mic app/test_adc_microphone.c)
+    target_include_directories(test_adc_mic PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_adc_mic pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_adc_mic 1)
+    pico_enable_stdio_uart(test_adc_mic 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_adc_mic)
+    ################################################################################
     # creates test_all_sensor executable
     add_executable(test_all_sensors app/test_all_sensors.c)
     target_include_directories(test_all_sensors PUBLIC .)
