@@ -6,12 +6,12 @@
 //
 #include <stdio.h>
 #include "hardware_setup.h"
-#include "sensor_lib/sht31.h"
+#include "sensor_lib/adxl345.h"
 #include "pico/stdlib.h"
 
 int main(void)
 {
-    float temp, humidity;
+    int16_t xAccl, yAccl, zAccl;
 
     initializePeripherals();
 
@@ -20,15 +20,15 @@ int main(void)
         char c = getchar_timeout_us(10000);
         if (c == 't')
         {
-            printf("Testing the SHT31 now\r\n");
+            printf("Testing the ADXL345 now\r\n");
             printf("=====================================================\r\n");
-            printf("It first checks if SHT31 is available.\r\n");
-            printf("It tries to read the room temperature and humidity.\r\n");
+            printf("It first checks if ADXL345 is available.\r\n");
+            printf("It tries to read the acceleration data from the sensor.\r\n");
             printf("=====================================================\r\n");
 
-            setup_sht31();
-            sht31_read_temp_hum(&temp, &humidity);
-            printf("temp: %f, humidity: %f\r\n", temp, humidity);
+            setup_adxl345();
+            adxl345_readData(&xAccl, &yAccl, &zAccl);
+            printf("acc_x: %d, acc_y:%d, acc_z:%d\r\n", xAccl, yAccl, zAccl);
         }
     }
 }

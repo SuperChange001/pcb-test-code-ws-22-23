@@ -3,9 +3,8 @@
 //
 #include <stdio.h>
 #include "hardware_setup.h"
-#include "sensor_lib/adxl345.h"
 #include "sensor_lib/pac193x.h"
-#include "sensor_lib/sht31.h"
+#include "pico/stdlib.h"
 
 int main(void)
 {

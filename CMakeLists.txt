@@ -35,6 +35,19 @@ if (TARGET tinyusb_device)
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(i2c_bus_scan)
     ################################################################################
+    # creates test_adxl345 executable
+    add_executable(test_adxl345 app/test_adxl345.c)
+    target_include_directories(test_adxl345 PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_adxl345 pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_adxl345 1)
+    pico_enable_stdio_uart(test_adxl345 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_adxl345)
+    ################################################################################
     # creates test_pac193x executable
     add_executable(test_pac193x app/test_pac193x.c)
     target_include_directories(test_pac193x PUBLIC .)
