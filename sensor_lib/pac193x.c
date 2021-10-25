@@ -195,5 +195,5 @@ void pac193x_print_info(void)
 
     info = pac193x_get_info();
 
-    printf("Product id: %2x\r\nManufacture id: %2x\r\nReversion id: %2x\r\n", info.product_id, info.manufacturer_id, info.revision_id);
+    printf("Product id: 0x%2x\r\nManufacture id: 0x%2x\r\nRevision id: 0x%02x\r\n", info.product_id, info.manufacturer_id, info.revision_id);
 }

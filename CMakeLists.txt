@@ -20,21 +20,8 @@ if (TARGET tinyusb_device)
 
     # adds hardware_setup dependency
     add_subdirectory(setup)
-   
-    # creates hardware_test executable
-    add_executable(hardware_test app/hardware_test.c)
-    target_include_directories(hardware_test PUBLIC .)
-    # Pull in our pico_stdlib which aggregates commonly used features
-    target_link_libraries(hardware_test pico_stdlib hardware_setup)
 
-    # enable usb output, disable uart output
-    pico_enable_stdio_usb(hardware_test 1)
-    pico_enable_stdio_uart(hardware_test 0)
-
-    # create map/bin/hex/uf2 file etc.
-    pico_add_extra_outputs(hardware_test)
-
-
+    ################################################################################
     # creates i2c_bus_scan executable
     add_executable(i2c_bus_scan app/i2c_bus_scan.c)
     target_include_directories(i2c_bus_scan PUBLIC .)
@@ -47,8 +34,33 @@ if (TARGET tinyusb_device)
 
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(i2c_bus_scan)
+    ################################################################################
+    # creates test_pac193x executable
+    add_executable(test_pac193x app/test_pac193x.c)
+    target_include_directories(test_pac193x PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_pac193x pico_stdlib hardware_setup)
 
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_pac193x 1)
+    pico_enable_stdio_uart(test_pac193x 0)
 
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_pac193x)
+    ################################################################################
+    # creates test_all_sensor executable
+    add_executable(test_all_sensors app/test_all_sensors.c)
+    target_include_directories(test_all_sensors PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_all_sensors pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_all_sensors 1)
+    pico_enable_stdio_uart(test_all_sensors 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_all_sensors)
+    ################################################################################
 
 elseif(PICO_ON_DEVICE)
     message(WARNING "not building hello_usb because TinyUSB submodule is not initialized in the SDK")
