@@ -35,6 +35,21 @@ if (TARGET tinyusb_device)
     pico_add_extra_outputs(hardware_test)
 
 
+    # creates i2c_bus_scan executable
+    add_executable(i2c_bus_scan app/i2c_bus_scan.c)
+    target_include_directories(i2c_bus_scan PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(i2c_bus_scan pico_stdlib hardware_i2c)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(i2c_bus_scan 1)
+    pico_enable_stdio_uart(i2c_bus_scan 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(i2c_bus_scan)
+
+
+
 elseif(PICO_ON_DEVICE)
     message(WARNING "not building hello_usb because TinyUSB submodule is not initialized in the SDK")
 endif()

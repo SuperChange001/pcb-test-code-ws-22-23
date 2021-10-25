@@ -5,9 +5,8 @@
 #ifndef MY_PROJECT_ADXL345_H
 #define MY_PROJECT_ADXL345_H
 #include "pico/stdlib.h"
+#include "hardware/i2c.h"
 
-#define I2C_CH i2c0
-#define ADXL345_SLAVE_ADDR 0x53 // when ALT is connected to GND
 
 /*! \brief  Check if the ADXL345 is on the I2C Bus
  *
@@ -27,7 +26,7 @@ int adxl345_onBus(void);
  * \returns -1: sensor is offline
  *          else: sensor is initialized
  */
-int adxl345_init(void);
+int adxl345_init(i2c_inst_t *i2c);
 
 
 /*! \brief Read the accelerate data from the sensor

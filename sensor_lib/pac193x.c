@@ -3,13 +3,8 @@
 //
 
 #include "pac193x.h"
-#include "hardware/i2c.h"
 #include <stdio.h>
 #include "pico/stdlib.h"
-
-// ToDo: Lukas to check why the first one doesn't work
-//i2c_inst_t *I2C_CH = i2c1;
-#define I2C_CH i2c1
 
 // PAC193x register addresses
 #define PAC1934_REFRESH_CMD_ADDR            0x00
@@ -55,24 +50,21 @@
 #define PAC1934_MANUFACTURER_ID_ADDR        0xFE
 #define PAC1934_REVISION_ID_ADDR            0xFF
 
+// I2C instance
+static i2c_inst_t *I2C_CH;
 
-
-/*! \brief  Power off the sensor if it is necessary
+/*! \brief  Power on/off the sensor if it is necessary
  *
  * \param none
  *
- * \returns 1: power off the sensor
- *          0: sensor on the sensor
+ * \returns 1: power on the sensor
+ *          0: sensor off the sensor
  */
-int pac193x_PowerDown(uint8_t power_off)
+int pac193x_power_ctrl(uint8_t power_enable)
 {
     gpio_init(29);
     gpio_set_dir(29, GPIO_OUT);
-    if(power_off==1){
-        gpio_put(29, 0);
-    }else if(power_off==0){
-        gpio_put(29, 1);
-    }
+    gpio_put(29, power_enable);
 }
 
 
@@ -83,7 +75,7 @@ int pac193x_PowerDown(uint8_t power_off)
  * \returns -1: sensor is offline
  *          else: sensor on line
  */
-int pac193x_onBus(uint8_t device_slave_addr)
+int pac193x_on_bus(uint8_t device_slave_addr)
 {
     int ret;
     uint8_t readbuffer[2];
@@ -109,19 +101,23 @@ void pac193x_refresh(void) {
 
 /*! \brief Initilize the PAC193x through the I2C bus
  *
- * \param none
+ * \param i2c: could only be i2c0 or i2c1
  *
  * \returns -1: sensor is offline
  *          else: sensor is initialized
  */
-int pac193x_init(void)
+int pac193x_init(i2c_inst_t *i2c)
 {
-
     uint8_t cmdbuffer[2];
-    pac193x_PowerDown(0);
+    I2C_CH = i2c;
 
-    if(pac193x_onBus(PAC193X_SLAVE_ADDR)<0)
+    pac193x_power_ctrl(1);
+    sleep_ms(10);
+
+    if(pac193x_on_bus(PAC193X_SLAVE_ADDR)<0){
         return -1;
+    }
+
 
     cmdbuffer[0] = PAC1934_NEG_PWR_ADDR;
     cmdbuffer[1] = 0x00;
@@ -142,6 +138,7 @@ int pac193x_init(void)
 
     pac193x_refresh();
     sleep_ms(1);
+    return 1;
 }
 
 
@@ -155,7 +152,7 @@ int pac193x_init(void)
  *
  * \returns none
  */
-PAC193X_Info pac193x_getInfo(void)
+PAC193X_Info pac193x_get_info(void)
 {
     uint8_t cmdbuffer[2];
     PAC193X_Info info;
@@ -192,11 +189,11 @@ PAC193X_Info pac193x_getInfo(void)
  *
  * \returns none
  */
-void pac193x_printInfo(void)
+void pac193x_print_info(void)
 {
     PAC193X_Info info;
 
-    info = pac193x_getInfo();
+    info = pac193x_get_info();
 
     printf("Product id: %2x\r\nManufacture id: %2x\r\nReversion id: %2x\r\n", info.product_id, info.manufacturer_id, info.revision_id);
 }

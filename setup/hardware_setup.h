@@ -9,6 +9,9 @@
 #define PICO_DEFAULT_LED_PIN_G 19
 #define PICO_DEFAULT_LED_PIN_B 20
 #endif
+#define I2C_FOR_PAC1934 i2c1
+#define I2C_FOR_SHT31 i2c0
+#define I2C_FOR_ADXL345 i2c0
 
 void initializePeripherals(void);
 
@@ -26,6 +29,9 @@ void setup_i2c0(void);
 
 void setup_adc_sampling_rate(uint32_t sampling_rate);
 
+void setup_pac193x(void);
+void setup_sht31(void);
+void setup_adxl345(void);
 void setup_adc(void);
 
 float adc_measure_voltage(void);

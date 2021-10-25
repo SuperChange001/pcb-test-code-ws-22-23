@@ -14,12 +14,32 @@ void initializePeripherals(void)
 
 	setup_i2c0();
 
-	pac193x_init();
-
-	adxl345_init();
-
-	setup_adc();
 }
+
+void setup_pac193x(void){
+    int ret=1; // be optimistic
+    ret = pac193x_init(I2C_FOR_PAC1934);
+    if(ret<0){
+        printf("Error, the sensor PAC193x is not responding.\r\n");
+    }
+}
+
+void setup_sht31(void){
+    int ret=1; // be optimistic
+    ret = sht31_init(I2C_FOR_SHT31);
+    if(ret<0){
+        printf("Error, the sensor SHT31 is not responding.\r\n");
+    }
+}
+
+void setup_adxl345(void){
+    int ret=1; // be optimistic
+    ret = adxl345_init(I2C_FOR_ADXL345);
+    if(ret<0){
+        printf("Error, the sensor ADXL345 is not responding.\r\n");
+    }
+}
+
 
 void setup_i2c1_sda_line(void)
 {
@@ -35,7 +55,7 @@ void setup_i2c1_scl_line(void)
 
 void setup_i2c1(void)
 {
-	int baud_rate = 10 * 1000;
+	int baud_rate = 100 * 1000;
 	i2c_init(i2c1, baud_rate);
 	setup_i2c1_sda_line();
 	setup_i2c1_scl_line();
@@ -55,7 +75,7 @@ void setup_i2c0_scl_line(void)
 
 void setup_i2c0(void)
 {
-	int baud_rate = 10 * 1000;
+	int baud_rate = 100 * 1000;
 	i2c_init(i2c0, baud_rate);
 	setup_i2c0_sda_line();
 	setup_i2c0_scl_line();
