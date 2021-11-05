@@ -126,6 +126,49 @@ if (TARGET tinyusb_device)
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(test_hello)
     ################################################################################
+    # creates test_echo executable
+    add_executable(test_echo app/test_echo.c)
+    target_include_directories(test_echo PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_echo pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_echo 1)
+    pico_enable_stdio_uart(test_echo 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_echo)
+    ################################################################################
+    # creates test_data_adc_10_times executable
+    add_executable(test_data_adc_10_times app/test_data_adc_10_times.c)
+    target_include_directories(test_data_adc_10_times PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_data_adc_10_times pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_data_adc_10_times 1)
+    pico_enable_stdio_uart(test_data_adc_10_times 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_data_adc_10_times)
+    ################################################################################
+    # creates test_data_adc_batch_reading executable
+    add_executable(test_data_adc_batch_reading app/test_data_adc_batch_reading.c)
+    target_include_directories(test_data_adc_batch_reading PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_data_adc_batch_reading pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_data_adc_batch_reading 1)
+    pico_enable_stdio_uart(test_data_adc_batch_reading 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_data_adc_batch_reading)
+
+
+
+    
+    ################################################################################
 
 elseif(PICO_ON_DEVICE)
     message(WARNING "not building hello_usb because TinyUSB submodule is not initialized in the SDK")
