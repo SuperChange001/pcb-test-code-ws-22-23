@@ -113,6 +113,19 @@ if (TARGET tinyusb_device)
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(test_all_sensors)
     ################################################################################
+    # creates test_hello executable
+    add_executable(test_hello app/test_hello.c)
+    target_include_directories(test_hello PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_hello pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_hello 1)
+    pico_enable_stdio_uart(test_hello 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_hello)
+    ################################################################################
 
 elseif(PICO_ON_DEVICE)
     message(WARNING "not building hello_usb because TinyUSB submodule is not initialized in the SDK")
