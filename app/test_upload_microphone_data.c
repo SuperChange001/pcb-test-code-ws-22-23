@@ -10,7 +10,6 @@ void adc_setup_for_mic(void)
 {
 	adc_init();
 
-	// Make sure GPIO is high-impedance, no pullups etc
 	adc_gpio_init(26);
 
 	uint32_t adc_sampling_rate = SAMPLING_RATE;

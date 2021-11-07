@@ -9,7 +9,7 @@ The input data to the AI model can either be a pre-stored Audio data, or realtim
 ```
 git submodule update --init
 mkdir build && cd build
-cmake ..
+cmake -G "MinGW Makefiles" ..
 make
 ```
 
