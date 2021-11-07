@@ -113,6 +113,14 @@ if (TARGET tinyusb_device)
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(test_all_sensors)
     ################################################################################
+    # creates test_speech_recognize executable
+    add_subdirectory(pico-tflmicro)
+
+    add_subdirectory(app_speech_recognize)
+
+
+
+    ################################################################################
 
 elseif(PICO_ON_DEVICE)
     message(WARNING "not building hello_usb because TinyUSB submodule is not initialized in the SDK")
