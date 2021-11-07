@@ -100,6 +100,32 @@ if (TARGET tinyusb_device)
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(test_adc_mic)
     ################################################################################
+    # creates test_data_upload executable
+    add_executable(test_dummy_data app/test_dummy_data.c)
+    target_include_directories(test_dummy_data PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_dummy_data pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_dummy_data 1)
+    pico_enable_stdio_uart(test_dummy_data 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_dummy_data)
+    ################################################################################
+    # creates test_upload_microphone_data executable
+    add_executable(test_upload_microphone_data app/test_upload_microphone_data.c)
+    target_include_directories(test_upload_microphone_data PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_upload_microphone_data pico_stdlib hardware_setup)
+
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_upload_microphone_data 1)
+    pico_enable_stdio_uart(test_upload_microphone_data 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_upload_microphone_data)
+    ################################################################################
     # creates test_all_sensor executable
     add_executable(test_all_sensors app/test_all_sensors.c)
     target_include_directories(test_all_sensors PUBLIC .)
@@ -117,9 +143,6 @@ if (TARGET tinyusb_device)
     add_subdirectory(pico-tflmicro)
 
     add_subdirectory(app_speech_recognize)
-
-
-
     ################################################################################
 
 elseif(PICO_ON_DEVICE)

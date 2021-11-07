@@ -17,9 +17,7 @@ limitations under the License.
 #include <cstdio>
 #include <cstdlib>
 
-#define HALT() do { while(1) sleep_ms(100); } while(0);
-
-#define UTILITY_MACRO_PRINT_(...) printf(__VA_ARGS__)
+#define UTILITY_MACRO_PRINT_(...) printf(__VA_ARGS__);
 
 
 #define UTILITY_MACRO_PRINT(UTILITY_MACRO_PRINT_TAG, ...) do { \

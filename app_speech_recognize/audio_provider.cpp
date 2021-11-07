@@ -177,7 +177,7 @@ void testAudioProvider(void) {
                 expected_value = (expected_value - 128) * 256;
                 if (audio_samples[i] != expected_value) {
                     PRINT_E("audio_samples = %d\n", audio_samples[i]);
-                    HALT();
+                    // HALT();
                 }
             }
         }

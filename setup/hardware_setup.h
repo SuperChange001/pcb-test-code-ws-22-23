@@ -35,7 +35,7 @@ void setup_adxl345(void);
 void setup_adc(void);
 
 float adc_measure_voltage(void);
-
+void adc_capture(uint16_t *buf, size_t count);
 void adc_print_audio_record();
 
 #endif

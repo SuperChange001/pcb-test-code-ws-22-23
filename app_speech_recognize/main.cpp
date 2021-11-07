@@ -83,7 +83,7 @@ int main(void) {
     tflite::MicroInterpreter* interpreter = createStaticInterpreter();
     if (!interpreter) {
         PRINT_E("createStaticInterpreter failed\n");
-        HALT();
+        // HALT();
     }
     TfLiteTensor* input = interpreter->input(0);
     TfLiteTensor* output = interpreter->output(0);
@@ -122,7 +122,7 @@ int main(void) {
         TfLiteStatus invoke_status = interpreter->Invoke();
         if (invoke_status != kTfLiteOk) {
             PRINT_E("Invoke failed\n");
-            HALT();
+            // HALT();
         }
 
         // Print the result
