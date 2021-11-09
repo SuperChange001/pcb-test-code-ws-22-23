@@ -15,7 +15,7 @@ limitations under the License.
 #include <cstring>
 #include <memory>
 #include <algorithm>
-
+#include "pico/stdlib.h"
 #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/micro_error_reporter.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
@@ -77,6 +77,8 @@ static tflite::MicroInterpreter* createStaticInterpreter(void)
 
 int main(void) {
 
+    stdio_init_all();
+    sleep_ms(1000);		// wait until UART connected
     PRINT("Hello, world!\n");
 
     // Create interpreter
@@ -136,7 +138,7 @@ int main(void) {
                 PRINT("%s: %f\n", kCategoryLabels[i], y);
             }
         }
-    
+
     }
 
     return 0;

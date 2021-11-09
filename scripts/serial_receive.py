@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 
 # If you are using MS windows, you should uncomment the line below
 # and change the serial device accordingly
-ser = serial.Serial("COM5", 500000)
+# ser = serial.Serial("COM5", 500000)
 
 # If you are using Unix, you should uncomment the line below
 # and change the serial device accordingly
-# ser = serial.Serial("/dev/ttyACM0", 500000) 
+ser = serial.Serial("/dev/ttyACM0", 500000)
 
 
 if __name__ == '__main__':
