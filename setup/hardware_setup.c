@@ -11,9 +11,6 @@ void initializePeripherals(void)
 	stdio_init_all();
 
 	setup_i2c1();
-
-	setup_i2c0();
-
 }
 
 void setup_pac193x(void){
