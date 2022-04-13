@@ -20,7 +20,19 @@ if (TARGET tinyusb_device)
 
     # adds hardware_setup dependency
     add_subdirectory(setup)
+    ################################################################################
+    # creates test_led executable
+    add_executable(test_led app/test_led.c)
+    target_include_directories(test_led PUBLIC .)
+    # Pull in our pico_stdlib which aggregates commonly used features
+    target_link_libraries(test_led pico_stdlib)
 
+    # enable usb output, disable uart output
+    pico_enable_stdio_usb(test_led 1)
+    pico_enable_stdio_uart(test_led 0)
+
+    # create map/bin/hex/uf2 file etc.
+    pico_add_extra_outputs(test_led)
     ################################################################################
     # creates i2c_bus_scan executable
     add_executable(i2c_bus_scan app/i2c_bus_scan.c)
