@@ -3,6 +3,28 @@
 2. Linux User: [Quick-start your own project](https://github.com/raspberrypi/pico-sdk)
 3. OSX User: [Getting started with Pi Pico(Chapter 9.1)](https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf)
 
+# Clone code and switch to the corresponding branch
+1. Clone code to your PC with `ssh`(recommended):
+```
+git clone git@git.uni-due.de:embedded-systems/lab-cps/pcb-test-code.git
+```
+alternatively, you can also clone it via `https`:
+```
+https://git.uni-due.de/embedded-systems/lab-cps/pcb-test-code.git
+```
+2. Switch to the branch for ES.Session 2:
+```
+git checkout board-test
+```
+Switch to the branch for ES.Session 3:
+```
+git checkout data-processing
+```
+Switch to the branch for ES.Session 4:
+```
+git checkout speech-detection
+```
+
 
 # How to build all the test program
 1. Create a new folder named with build, and change directory to build folder. e.g,
