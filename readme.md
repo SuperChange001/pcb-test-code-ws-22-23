@@ -12,6 +12,7 @@ cd build
 ```
 2. Call cmake and specify the buildings system:
 ```
+# For windows users
 cmake -G "MinGW Makefiles" ..
 
 # For OSX and Linux
