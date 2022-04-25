@@ -35,6 +35,9 @@ cd build
 2. Call cmake and specify the buildings system:
 ```
 cmake -G "MinGW Makefiles" ..
+
+# For OSX and Linux
+cmake ..
 ```
 3. Now you can either build all test program with:
 ```
