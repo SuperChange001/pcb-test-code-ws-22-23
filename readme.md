@@ -10,9 +10,13 @@
 mkdir build
 cd build
 ```
-2. Call cmake and specify the buildings system:
+2. Call cmake and specify the buildings system(take one of them accordingly):
 ```
+# For windows
 cmake -G "MinGW Makefiles" ..
+
+# For OSX and Linux
+cmake ..
 ```
 3. Now you can either build all test program with:
 ```
