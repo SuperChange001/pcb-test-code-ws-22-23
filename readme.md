@@ -10,7 +10,7 @@ git clone git@git.uni-due.de:embedded-systems/lab-cps/pcb-test-code.git
 ```
 alternatively, you can also clone it via `https`:
 ```
-https://git.uni-due.de/embedded-systems/lab-cps/pcb-test-code.git
+git clone https://git.uni-due.de/embedded-systems/lab-cps/pcb-test-code.git
 ```
 2. Switch to the branch for ES.Session 2:
 ```
