@@ -12,7 +12,7 @@ void initializePeripherals(void)
 
 	setup_i2c1();
 
-	setup_i2c0();
+	// setup_i2c0();
 
 }
 

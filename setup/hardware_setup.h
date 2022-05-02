@@ -10,8 +10,8 @@
 #define PICO_DEFAULT_LED_PIN_B 20
 #endif
 #define I2C_FOR_PAC1934 i2c1
-#define I2C_FOR_SHT31 i2c0
-#define I2C_FOR_ADXL345 i2c0
+#define I2C_FOR_SHT31 i2c1
+#define I2C_FOR_ADXL345 i2c1
 
 void initializePeripherals(void);
 
