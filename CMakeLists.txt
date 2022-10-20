@@ -60,32 +60,6 @@ if (TARGET tinyusb_device)
     # create map/bin/hex/uf2 file etc.
     pico_add_extra_outputs(test_adxl345)
     ################################################################################
-    # creates test_pac193x executable
-    add_executable(test_pac193x app/test_pac193x.c)
-    target_include_directories(test_pac193x PUBLIC .)
-    # Pull in our pico_stdlib which aggregates commonly used features
-    target_link_libraries(test_pac193x pico_stdlib hardware_setup)
-
-    # enable usb output, disable uart output
-    pico_enable_stdio_usb(test_pac193x 1)
-    pico_enable_stdio_uart(test_pac193x 0)
-
-    # create map/bin/hex/uf2 file etc.
-    pico_add_extra_outputs(test_pac193x)
-    ################################################################################
-    # creates test_pac193x executable
-    add_executable(test_sht31 app/test_sht31.c)
-    target_include_directories(test_sht31 PUBLIC .)
-    # Pull in our pico_stdlib which aggregates commonly used features
-    target_link_libraries(test_sht31 pico_stdlib hardware_setup)
-
-    # enable usb output, disable uart output
-    pico_enable_stdio_usb(test_sht31 1)
-    pico_enable_stdio_uart(test_sht31 0)
-
-    # create map/bin/hex/uf2 file etc.
-    pico_add_extra_outputs(test_sht31)
-    ################################################################################
     # creates test_adc_vol executable
     add_executable(test_adc_vol app/test_adc_voltage_measure.c)
     target_include_directories(test_adc_vol PUBLIC .)

@@ -18,9 +18,6 @@ int main(void)
         if (c == 't')
         {
             printf("Will test all sensors now:\r\n");
-            setup_pac193x();
-            sleep_ms(10);
-            pac193x_print_info();
 
             setup_sht31();
             sht31_read_temp_hum(&temp, &humidity);
